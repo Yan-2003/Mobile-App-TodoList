@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
   navbar : {
     alignSelf : "center",
     borderRadius : 50,
-    width : '90%',
     height : '10%',
     backgroundColor : 'black',
     padding : 15,
