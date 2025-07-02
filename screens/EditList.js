@@ -2,7 +2,7 @@ import { StyleSheet, Text, View , Platform, TouchableOpacity,  } from 'react-nat
 import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { useNavigation } from '@react-navigation/native';
+import { CommonActions, useNavigation } from '@react-navigation/native';
 import { TextInput } from 'react-native-gesture-handler';
 import axios from 'axios';
 
@@ -13,7 +13,7 @@ export default function EditList({route}) {
     
     const navigation = useNavigation()
 
-     const API_URL = `http://10.0.2.2:8000/api/todo/${id}`
+     const API_URL = `http://192.168.1.88:8000/api/todo/${id}`
 
     const [newTodo, setnewTodo] = useState(todo);
 
@@ -29,7 +29,7 @@ export default function EditList({route}) {
 
             console.log(response.data)
 
-            return navigation.navigate('Home')
+            return navigation.dispatch(CommonActions.reset({index : 0, routes : [{name: 'Home'}]}))
         } catch (error) {
             return console.log(error)
         }
@@ -39,7 +39,7 @@ export default function EditList({route}) {
         try {
             const response = await axios.delete(API_URL)
             console.log(response)
-            return navigation.navigate('Home')
+            return navigation.dispatch(CommonActions.reset({index : 0, routes : [{name: 'Home'}]}))
         } catch (error) {
             console.log(error)
         }
@@ -53,7 +53,7 @@ export default function EditList({route}) {
                 <Text style={styles.title}> ToDo </Text>
                 <TextInput placeholder='Enter Todo' value={newTodo} onChangeText={text => setnewTodo(text)}/>
                 <View style={styles.btn_section}>
-                    <TouchableOpacity onPress={()=> navigation.navigate('Home')} style={styles.btn}><Text>Back</Text></TouchableOpacity>
+                    <TouchableOpacity onPress={()=> navigation.goBack()} style={styles.btn}><Text>Back</Text></TouchableOpacity>
                     <TouchableOpacity onPress={()=> remove_todo()} style={styles.btn}><Text>Delete</Text></TouchableOpacity>
                     <TouchableOpacity onPress={()=> edit_new_todo()} style={styles.btn}><Text>Save</Text></TouchableOpacity>
                 </View>
